@@ -36,8 +36,9 @@ namespace DanFestaJuninaCore
             services.AddHttpClient();
             services.AddMvc().AddXmlSerializerFormatters();
             services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
-            //services.AddSingleton<IDishRepository, MockDishRepository>();
+            // services.AddSingleton<IDishRepository, MockDishRepository>();
             services.AddSingleton<IDishRepository, GolangDishRepository>();
+            services.AddSingleton<IKrakenRepository, KrakenRepository>();
 
             // 22-Sep-2019 
             // Configuring the appsetting to read variables from

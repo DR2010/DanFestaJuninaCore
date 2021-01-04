@@ -22,6 +22,9 @@ namespace DanFestaJuninaCore.Models
                              Description = "Feijoada", Descricao = "Feijoada", ActivityType = "1"},
                 new Dish() { Name = "Angu a baiana", Type = "Savoury", Price = "10.30", GlutenFree = "Y", DairyFree = "Y",
                              Vegetarian = "Y", InitialAvailable = "50", CurrentAvailable = "50", ImageName = "Feijao.jpg",
+                             Description = "Feijoada", Descricao = "Feijoada", ActivityType = "1"},
+                new Dish() { Name = "Feijao Tropeiro", Type = "Savoury", Price = "10.30", GlutenFree = "Y", DairyFree = "Y",
+                             Vegetarian = "Y", InitialAvailable = "50", CurrentAvailable = "50", ImageName = "Feijao.jpg",
                              Description = "Feijoada", Descricao = "Feijoada", ActivityType = "1"}
             };
 

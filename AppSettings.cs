@@ -16,8 +16,9 @@ namespace DanFestaJuninaCore
         public string MSAPIactivitiesPort { get; set; }
         public string SecurityMicroservice{ get; set; } 
         public string MSAPIdishesIPAddress{ get; set; } 
-        public string MSAPIordersIPAddress{ get; set; } 
-        public string MSAPIactivitiesIPAddress{ get; set; }
+        public string MSAPIordersIPAddress{ get; set; }
+        public string MSAPIactivitiesIPAddress { get; set; }
+        public string KrakenAPI { get; set; }
         public string SecurityMicroserviceURL{ get; set; } 
         public string WEBDebug { get; set; }
         public string CollectionOrders { get; set; }
