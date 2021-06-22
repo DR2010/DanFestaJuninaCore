@@ -1,0 +1,2 @@
+# DanFestaJuninaCore
+Dotnet Core FestaJunina
