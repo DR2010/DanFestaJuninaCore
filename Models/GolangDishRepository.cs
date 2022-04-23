@@ -4,7 +4,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.IO;
 
 namespace DanFestaJuninaCore.Models
 {
@@ -31,7 +34,30 @@ namespace DanFestaJuninaCore.Models
             // requestUrl.DanAPIServiceDishes = "http://192.168.2.120:1610/dishlist";
             // MSAPIdishesIPAddress
 
-            var fullurl = requestUrl.MSAPIdishesIPAddress + "/dishlist";
+            var fullurl = requestUrl.MSAPIdishesIPAddress + "dishlist";
+            //fullurl = "https://localhost:7184/dishes";
+
+            System.Uri su = new Uri(fullurl);
+
+            _httpClient = new HttpClient();
+
+            var response = await _httpClient.GetAsync(su);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            var conv = JsonConvert.DeserializeObject<List<Dish>>(data);
+
+            return conv;
+        }
+        async Task<IEnumerable<Dish>> IDishRepository.GetAllDishesdotnet(IOptions<DanAppSettings> settings)
+        {
+            //var requestUrl = "http://localhost:1610/dishlist";
+            var requestUrl = settings.Value;
+
+            // requestUrl.DanAPIServiceDishes = "http://192.168.2.120:1610/dishlist";
+            // MSAPIdishesIPAddress
+
+            var fullurl = requestUrl.MSAPIdishesIPAddress + "/Dishes/dishlist";
+            fullurl = "https://localhost:7184/dishes";
 
             System.Uri su = new Uri(fullurl);
 
@@ -65,61 +91,54 @@ namespace DanFestaJuninaCore.Models
             return conv;
         }
 
-
+        /// <summary>
+        /// Send a PUT request toi update a DISH
+        /// </summary>
+        /// <param name="dish"></param>
+        /// <returns></returns>
         public async Task<Dish> UpdateDish(Dish dish)
         {
 
+            Dish dishnew = new()
+            {
+                Name = dish.Name,
+                Type = dish.Type,
+                Price = dish.Price,
+                GlutenFree = dish.GlutenFree,
+                DairyFree = dish.DairyFree,
+                Vegetarian = dish.Vegetarian,
+                InitialAvailable = dish.InitialAvailable,
+                CurrentAvailable = dish.CurrentAvailable,
+                ImageName = dish.ImageName,
+                Description = dish.Description,
+                Descricao = dish.Descricao,
+                ActivityType = dish.ActivityType,
+                ImageBase64 = ""
+            };
+
             var appsettings = danappsettings.Value;
 
-            var urifull = string.Concat(appsettings.MSAPIdishesIPAddress, "dishupdate");
-            System.Uri su = new Uri(urifull);
+            var urifull = string.Concat(appsettings.MSAPIdishesIPAddress, dish.Id);
 
-            _httpClient = new HttpClient();
+            System.Uri uri = new Uri(urifull);
 
-            // Preparing the POST
-            //
-            var content = new MultipartFormDataContent();
-            content.Add(new StringContent(dish.Name), "dishname");
-            content.Add(new StringContent(dish.Type), "dishtype");
-            content.Add(new StringContent(dish.Price), "dishprice");
-            content.Add(new StringContent(dish.GlutenFree), "dishglutenfree");
-            content.Add(new StringContent(dish.DairyFree), "dishdairyfree");
-            content.Add(new StringContent(dish.Vegetarian), "dishvegetarian");
-            content.Add(new StringContent(dish.InitialAvailable), "dishinitialavailable");
-            content.Add(new StringContent(dish.CurrentAvailable), "dishcurrentavailable");
-            content.Add(new StringContent(dish.ImageName), "dishimagename");
-            content.Add(new StringContent(dish.Description), "dishdescription");
-            content.Add(new StringContent(dish.Descricao), "dishdescricao");
-            content.Add(new StringContent(dish.ActivityType), "dishactivitytype");
 
-            HttpResponseMessage response = await _httpClient.PostAsync(su.ToString(), content);
+            // using System.Text.Json
+            var newdishjson = System.Text.Json.JsonSerializer.Serialize(dishnew);            
+  
+            var requestContent = new StringContent(newdishjson, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PutAsync(uri, requestContent);
             response.EnsureSuccessStatusCode();
 
-            string apiResponse = await response.Content.ReadAsStringAsync();
-
-            //Dish dishback = new Dish();
-            //dishback = JsonConvert.DeserializeObject<Dish>(apiResponse);
-
-            dish = await response.Content.ReadAsAsync<Dish>();
             return dish;
         }
 
-        private HttpContent CreateHttpContent<T>(T content)
-        {
-            var json = JsonConvert.SerializeObject(content, MicrosoftDateFormatSettings);
-            return new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-        }
-
-        private static JsonSerializerSettings MicrosoftDateFormatSettings
-        {
-            get
-            {
-                return new JsonSerializerSettings
-                {
-                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-                };
-            }
-        }
+        //private HttpContent CreateHttpContent<T>(T content)
+        //{
+        //    var json = JsonConvert.SerializeObject(content, MicrosoftDateFormatSettings);
+        //    return new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        //}
 
     }
 }

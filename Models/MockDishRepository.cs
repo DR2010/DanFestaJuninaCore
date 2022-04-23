@@ -36,6 +36,11 @@ namespace DanFestaJuninaCore.Models
             return _dishList;
         }
 
+        public Task<IEnumerable<Dish>> GetAllDishesdotnet(IOptions<DanAppSettings> danAppSettings)
+        {
+            return _dishList;
+        }
+
         public Task<Dish> GetDish(string Name)
         {
 

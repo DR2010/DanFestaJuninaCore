@@ -5,6 +5,7 @@ namespace DanFestaJuninaCore.Models
 {
     public class Dish
     {
+        public string Id { get; set; }        // name of the dish - this is the KEY, must be unique
         public string Name { get; set; }        // name of the dish - this is the KEY, must be unique
         public string Type { get; set; }        // type of dish, includes drinks and deserts
         public string Price { get; set; }        // preco do prato multiplicar por 100 e nao ter digits
@@ -17,6 +18,8 @@ namespace DanFestaJuninaCore.Models
         public string Description { get; set; }        // Description of the plate
         public string Descricao { get; set; }        // Descricao do prato
         public string ActivityType { get; set; }        // Descricao do activity
+        public string ImageBase64 { get; set; }        // Image in base 64
+
 
     }
 }

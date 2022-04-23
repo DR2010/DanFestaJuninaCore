@@ -8,6 +8,7 @@ namespace DanFestaJuninaCore.Models
     {
         Task<Dish> GetDish(string Name);
         Task<IEnumerable<Dish>> GetAllDishes(IOptions<DanAppSettings> settings);
+        Task<IEnumerable<Dish>> GetAllDishesdotnet(IOptions<DanAppSettings> settings);
         Task<Dish> UpdateDish( Dish dish );
         
     }

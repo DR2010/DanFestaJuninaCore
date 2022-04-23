@@ -132,7 +132,8 @@ namespace DanFestaJuninaCore.Controllers
         {
             // Get details from HTML form
             Dish dish = new Dish();
-            dish.Name = Request.Form["dishname"];
+            dish.Id = Request.Form["dishid"];   
+            dish.Name = Request.Form["dishname"];   
             dish.Type = Request.Form["dishtype"];
             dish.Price = Request.Form["dishprice"];
             dish.GlutenFree = Request.Form["dishglutenfree"];
